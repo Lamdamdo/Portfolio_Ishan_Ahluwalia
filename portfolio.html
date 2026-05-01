@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ishan Ahluwalia — MERN Stack Developer & Data Analyst</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050810;
+  --bg2: #080d1a;
+  --bg3: #0d1525;
+  --cyan: #00f5ff;
+  --cyan-dim: rgba(0,245,255,0.15);
+  --pink: #ff2d78;
+  --pink-dim: rgba(255,45,120,0.15);
+  --yellow: #f5c518;
+  --green: #00ff9d;
+  --text: #c8d8f0;
+  --text-dim: #5a7a9a;
+  --border: rgba(0,245,255,0.12);
+  --mono: 'Share Tech Mono', monospace;
+  --head: 'Orbitron', sans-serif;
+  --body: 'Rajdhani', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px);
+  pointer-events: none;
+  z-index: 9998;
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,245,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,245,255,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  height: 64px;
+  background: rgba(5,8,16,0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { font-family: var(--head); font-size: 14px; color: var(--cyan); letter-spacing: 2px; text-decoration: none; }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a { font-family: var(--mono); font-size: 12px; color: var(--text-dim); text-decoration: none; letter-spacing: 1px; transition: color 0.2s; }
+.nav-links a:hover { color: var(--cyan); }
+
+section { position: relative; z-index: 1; }
+
+/* HERO */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 120px 80px 80px;
+  gap: 80px;
+}
+.hero-content { flex: 1; }
+.hero-tag { font-family: var(--mono); font-size: 12px; color: var(--cyan); letter-spacing: 3px; margin-bottom: 16px; opacity: 0; animation: fadeUp 0.6s 0.2s forwards; }
+.hero-name { font-family: var(--head); font-size: clamp(36px, 5vw, 62px); font-weight: 900; line-height: 1.05; color: #fff; margin-bottom: 12px; opacity: 0; animation: fadeUp 0.6s 0.35s forwards; }
+.hero-name span { color: var(--cyan); }
+.hero-role { font-family: var(--mono); font-size: 16px; color: var(--pink); margin-bottom: 24px; opacity: 0; animation: fadeUp 0.6s 0.5s forwards; }
+.hero-desc { font-size: 17px; color: var(--text-dim); max-width: 520px; margin-bottom: 36px; opacity: 0; animation: fadeUp 0.6s 0.65s forwards; }
+.hero-socials { display: flex; gap: 16px; margin-bottom: 40px; opacity: 0; animation: fadeUp 0.6s 0.8s forwards; flex-wrap: wrap; }
+.social-link { display: flex; align-items: center; gap: 8px; padding: 10px 20px; border: 1px solid var(--border); border-radius: 4px; text-decoration: none; font-family: var(--mono); font-size: 12px; color: var(--text-dim); background: var(--bg2); transition: all 0.2s; letter-spacing: 1px; }
+.social-link:hover { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 16px rgba(0,245,255,0.15); }
+.social-link svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
+.hero-btns { display: flex; gap: 16px; opacity: 0; animation: fadeUp 0.6s 0.95s forwards; }
+.btn-primary { padding: 13px 32px; background: var(--cyan); color: #050810; font-family: var(--head); font-size: 12px; font-weight: 700; letter-spacing: 2px; border: none; border-radius: 3px; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+.btn-primary:hover { background: #fff; box-shadow: 0 0 24px rgba(0,245,255,0.4); }
+.btn-outline { padding: 13px 32px; background: transparent; color: var(--cyan); font-family: var(--head); font-size: 12px; font-weight: 700; letter-spacing: 2px; border: 1px solid var(--cyan); border-radius: 3px; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+.btn-outline:hover { background: var(--cyan-dim); }
+
+/* PHOTO */
+.hero-photo { width: 280px; height: 320px; flex-shrink: 0; position: relative; opacity: 0; animation: fadeUp 0.7s 0.5s forwards; }
+.hero-photo::before { content: ''; position: absolute; inset: -2px; border-radius: 8px; background: linear-gradient(135deg, var(--cyan), var(--pink)); z-index: -1; }
+.hero-photo::after { content: ''; position: absolute; top: 16px; left: 16px; right: -16px; bottom: -16px; border: 1px solid rgba(0,245,255,0.2); border-radius: 8px; z-index: -2; }
+.photo-inner { width: 100%; height: 100%; background: var(--bg3); border-radius: 7px; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
+.photo-inner img { width: 100%; height: 100%; object-fit: cover; border-radius: 7px; display: none; }
+.photo-placeholder { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.photo-placeholder svg { width: 64px; height: 64px; fill: rgba(0,245,255,0.2); }
+.photo-placeholder p { font-family: var(--mono); font-size: 11px; color: var(--text-dim); letter-spacing: 1px; }
+
+/* SECTIONS */
+.section-wrap { padding: 100px 80px; }
+.section-label { font-family: var(--mono); font-size: 11px; color: var(--pink); letter-spacing: 4px; margin-bottom: 8px; }
+.section-title { font-family: var(--head); font-size: clamp(26px, 3vw, 38px); font-weight: 900; color: #fff; margin-bottom: 60px; }
+.section-title span { color: var(--cyan); }
+.cyber-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.3; margin: 0 80px; }
+
+/* SKILLS */
+#skills { background: var(--bg2); }
+.skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.skill-group { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 32px; position: relative; overflow: hidden; }
+.skill-group::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cyan), var(--pink)); }
+.skill-group-title { font-family: var(--head); font-size: 13px; font-weight: 700; color: var(--cyan); letter-spacing: 2px; margin-bottom: 28px; display: flex; align-items: center; gap: 10px; }
+.skill-group-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.tech-logos { display: flex; flex-wrap: wrap; gap: 12px; }
+.tech-pill { display: flex; align-items: center; gap: 8px; padding: 7px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; font-family: var(--mono); font-size: 12px; color: var(--text); letter-spacing: 0.5px; transition: all 0.2s; cursor: default; }
+.tech-pill:hover { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 12px rgba(0,245,255,0.12); }
+.tech-pill img { width: 18px; height: 18px; object-fit: contain; }
+.tech-pill .t-icon { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; line-height: 1; }
+
+/* PROJECTS */
+#projects { background: var(--bg); }
+.proj-tabs { display: flex; gap: 0; margin-bottom: 48px; border-bottom: 1px solid var(--border); }
+.proj-tab { padding: 12px 28px; font-family: var(--mono); font-size: 12px; letter-spacing: 2px; color: var(--text-dim); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; }
+.proj-tab.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+.proj-tab:hover:not(.active) { color: var(--text); }
+.proj-panel { display: none; }
+.proj-panel.active { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+.proj-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; transition: all 0.25s; }
+.proj-card:hover { border-color: rgba(0,245,255,0.35); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 20px rgba(0,245,255,0.08); }
+.proj-screenshot { width: 100%; height: 200px; background: var(--bg2); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); }
+.proj-screenshot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.screenshot-placeholder { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.screenshot-placeholder svg { width: 36px; height: 36px; }
+.screenshot-placeholder p { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+.proj-badge { position: absolute; top: 12px; right: 12px; padding: 4px 10px; border-radius: 3px; font-family: var(--mono); font-size: 10px; letter-spacing: 1px; font-weight: 700; }
+.badge-mern { background: rgba(0,245,255,0.15); color: var(--cyan); border: 1px solid rgba(0,245,255,0.3); }
+.badge-excel { background: rgba(0,255,100,0.1); color: #00dd88; border: 1px solid rgba(0,255,100,0.2); }
+.badge-powerbi { background: rgba(245,196,0,0.12); color: var(--yellow); border: 1px solid rgba(245,196,0,0.25); }
+.badge-python { background: rgba(100,150,255,0.12); color: #88aaff; border: 1px solid rgba(100,150,255,0.25); }
+.badge-sql { background: rgba(255,45,120,0.12); color: var(--pink); border: 1px solid rgba(255,45,120,0.25); }
+.proj-body { padding: 20px; }
+.proj-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; gap: 12px; }
+.proj-name { font-family: var(--head); font-size: 13px; font-weight: 700; color: #fff; line-height: 1.3; }
+.proj-gh { flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; background: var(--bg); border: 1px solid var(--border); border-radius: 50%; text-decoration: none; transition: all 0.2s; }
+.proj-gh:hover { border-color: var(--cyan); box-shadow: 0 0 12px rgba(0,245,255,0.2); }
+.proj-gh svg { width: 16px; height: 16px; fill: var(--text-dim); transition: fill 0.2s; }
+.proj-gh:hover svg { fill: var(--cyan); }
+.proj-desc { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+
+/* CONTACT */
+#contact { background: var(--bg2); }
+.contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.contact-info p { font-size: 16px; color: var(--text-dim); margin-bottom: 32px; line-height: 1.8; }
+.contact-detail { display: flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 13px; color: var(--text-dim); margin-bottom: 16px; }
+.contact-detail svg { width: 16px; height: 16px; fill: var(--cyan); flex-shrink: 0; }
+.contact-detail a { color: var(--cyan); text-decoration: none; }
+.contact-detail a:hover { text-decoration: underline; }
+.contact-form { display: flex; flex-direction: column; gap: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-label { font-family: var(--mono); font-size: 11px; color: var(--cyan); letter-spacing: 2px; }
+.form-input, .form-textarea { background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; padding: 12px 16px; color: var(--text); font-family: var(--body); font-size: 16px; outline: none; transition: border-color 0.2s; width: 100%; }
+.form-input:focus, .form-textarea:focus { border-color: var(--cyan); box-shadow: 0 0 0 2px rgba(0,245,255,0.08); }
+.form-textarea { min-height: 140px; resize: vertical; }
+.form-submit { padding: 14px 36px; background: transparent; color: var(--cyan); font-family: var(--head); font-size: 12px; font-weight: 700; letter-spacing: 3px; border: 1px solid var(--cyan); border-radius: 3px; cursor: pointer; transition: all 0.2s; align-self: flex-start; position: relative; overflow: hidden; }
+.form-submit::before { content: ''; position: absolute; inset: 0; background: var(--cyan); transform: translateX(-100%); transition: transform 0.2s; z-index: -1; }
+.form-submit:hover { color: #050810; }
+.form-submit:hover::before { transform: translateX(0); }
+.form-msg { font-family: var(--mono); font-size: 13px; color: var(--green); display: none; margin-top: 4px; }
+
+/* FOOTER */
+footer { background: var(--bg); border-top: 1px solid var(--border); padding: 32px 80px; display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 1; }
+.footer-text { font-family: var(--mono); font-size: 12px; color: var(--text-dim); }
+.footer-text span { color: var(--cyan); }
+
+/* GO TO TOP */
+#gototop { position: fixed; bottom: 36px; right: 36px; width: 48px; height: 48px; background: var(--bg3); border: 1px solid var(--cyan); border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 999; opacity: 0; transform: translateY(20px); transition: all 0.3s; text-decoration: none; }
+#gototop.visible { opacity: 1; transform: translateY(0); }
+#gototop:hover { background: var(--cyan-dim); box-shadow: 0 0 20px rgba(0,245,255,0.2); }
+#gototop svg { width: 18px; height: 18px; fill: var(--cyan); }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.blink { display: inline-block; animation: blink 1s step-end infinite; color: var(--cyan); }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+@media (max-width: 900px) {
+  nav { padding: 0 24px; }
+  .nav-links { gap: 18px; }
+  #hero { flex-direction: column-reverse; padding: 100px 24px 60px; gap: 40px; }
+  .hero-photo { width: 200px; height: 230px; align-self: center; }
+  .section-wrap { padding: 70px 24px; }
+  .skills-grid { grid-template-columns: 1fr; }
+  .proj-panel.active { grid-template-columns: 1fr; }
+  .contact-wrap { grid-template-columns: 1fr; gap: 40px; }
+  .cyber-divider { margin: 0 24px; }
+  footer { padding: 24px; flex-direction: column; gap: 8px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">IA<span style="color:var(--pink)">.</span>DEV</a>
+  <ul class="nav-links">
+    <li><a href="#skills">SKILLS</a></li>
+    <li><a href="#projects">PROJECTS</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <p class="hero-tag">&gt; INITIALIZING PORTFOLIO<span class="blink">_</span></p>
+    <h1 class="hero-name">ISHAN<br><span>AHLUWALIA</span></h1>
+    <p class="hero-role">MERN Stack Developer &amp; Data Analyst</p>
+    <p class="hero-desc">Building scalable backend systems and turning raw data into decisions. Based in Greater Noida — open to opportunities.</p>
+
+    <div class="hero-socials">
+      <a href="https://github.com/Lamdamdo" target="_blank" class="social-link">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+        GITHUB
+      </a>
+      <a href="https://www.linkedin.com/in/ishan-ahluwalia-642b73287/" target="_blank" class="social-link">
+        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LINKEDIN
+      </a>
+      <a href="https://x.com/ishan_ahluwalia" target="_blank" class="social-link">
+        <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        X.COM
+      </a>
+    </div>
+
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">VIEW PROJECTS</a>
+      <a href="#contact" class="btn-outline">CONTACT ME</a>
+    </div>
+  </div>
+
+  <div class="hero-photo">
+    <div class="photo-inner">
+      <img src="My_photo.jpeg" alt="Ishan Ahluwalia" id="profile-img">
+      <div class="photo-placeholder" id="photo-placeholder">
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+        <p>// YOUR PHOTO HERE</p>
+        <p style="font-size:10px;color:#3a5a7a;">set src="your-photo.jpg"</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cyber-divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-wrap">
+    <p class="section-label reveal">// 01 SKILL_SET</p>
+    <h2 class="section-title reveal">TECHNICAL <span>ARSENAL</span></h2>
+    <div class="skills-grid">
+
+      <div class="skill-group reveal">
+        <div class="skill-group-title">MERN STACK &amp; BACKEND</div>
+        <div class="tech-logos">
+          <div class="tech-pill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt=""> MongoDB</div>
+          <div class="tech-pill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="" style="filter:invert(1) brightness(2)"> Express.js</div>
+          <div class="tech-pill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt=""> React.js</div>
+          <div class="tech-pill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt=""> Node.js</div>
+          <div class="tech-pill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt=""> JavaScript</div>
+          <div class="tech-pill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt=""> TypeScript</div>
+          <div class="tech-pill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg" alt=""> Redux</div>
+          <div class="tech-pill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt=""> Tailwind CSS</div>
+          <div class="tech-pill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt=""> MySQL</div>
+          <div class="tech-pill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" alt=""> Redis</div>
+          <div class="tech-pill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/elasticsearch/elasticsearch-original.svg" alt=""> ElasticSearch</div>
+          <div class="tech-pill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt=""> Docker</div>
+          <div class="tech-pill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt=""> Git</div>
+        </div>
+      </div>
+
+      <div class="skill-group reveal">
+        <div class="skill-group-title" style="color:var(--pink)">DATA ANALYSIS &amp; VISUALIZATION</div>
+        <div class="tech-logos">
+          <div class="tech-pill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt=""> Python</div>
+          <div class="tech-pill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" alt=""> NumPy</div>
+          <div class="tech-pill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" alt=""> Pandas</div>
+          <div class="tech-pill"><div class="t-icon" style="color:#3a7fc1;">📈</div> Matplotlib</div>
+          <div class="tech-pill"><div class="t-icon">🌊</div> Seaborn</div>
+          <div class="tech-pill"><div class="t-icon" style="font-size:11px;font-weight:700;color:var(--yellow);">PBI</div> Power BI</div>
+          <div class="tech-pill"><div class="t-icon" style="font-size:11px;font-weight:700;color:#00dd88;">XLS</div> Advanced Excel</div>
+          <div class="tech-pill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt=""> SQL Analytics</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="cyber-divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-wrap">
+    <p class="section-label reveal">// 02 PROJECTS</p>
+    <h2 class="section-title reveal">WHAT I'VE <span>BUILT</span></h2>
+
+    <div class="proj-tabs reveal">
+      <button class="proj-tab active" onclick="switchTab('mern',this)">MERN STACK</button>
+      <button class="proj-tab" onclick="switchTab('data',this)">DATA ANALYSIS</button>
+    </div>
+
+    <!-- MERN -->
+    <div class="proj-panel active" id="tab-mern">
+
+      <div class="proj-card reveal">
+        <div class="proj-screenshot">
+          <img src="" alt="Job Board API">
+          <div class="screenshot-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(0,245,255,0.3)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <p>// add screenshot</p>
+          </div>
+          <span class="proj-badge badge-mern">MERN + SQL</span>
+        </div>
+        <div class="proj-body">
+          <div class="proj-top">
+            <p class="proj-name">Job Board API</p>
+            <a href="https://github.com/Lamdamdo/JobBoard" target="_blank" class="proj-gh" title="View on GitHub">
+              <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+            </a>
+          </div>
+          <p class="proj-desc">Multi-database backend with ElasticSearch full-text search, Redis caching, JWT auth, and advanced MySQL schema design for high-traffic job listings.</p>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-screenshot">
+          <img src="project_ss/FinTrack.png" alt="FinTrack">
+          <div class="screenshot-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(0,245,255,0.3)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <p>// add screenshot</p>
+          </div>
+          <span class="proj-badge badge-sql">SQL</span>
+        </div>
+        <div class="proj-body">
+          <div class="proj-top">
+            <p class="proj-name">FinTrack — SQL Financial Warehouse</p>
+            <a href="https://github.com/ishanahluwalia/fintrack-sql" target="_blank" class="proj-gh" title="View on GitHub">
+              <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+            </a>
+          </div>
+          <p class="proj-desc">Production-grade financial database with automated triggers, stored procedures for data cleaning, B-Tree indexing, and advanced CTEs with window functions.</p>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-screenshot">
+          <img src="project_ss/Multi_gen.png" alt="MultiGen-Ai">
+          <div class="screenshot-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(0,245,255,0.3)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <p>// add screenshot</p>
+          </div>
+          <span class="proj-badge badge-mern">MERN + AI</span>
+        </div>
+        <div class="proj-body">
+          <div class="proj-top">
+            <p class="proj-name">MultiGen-Ai</p>
+            <a href="https://github.com/ishanahluwalia/ai-platform" target="_blank" class="proj-gh" title="View on GitHub">
+              <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+            </a>
+          </div>
+          <p class="proj-desc">Full-stack AI chat and image generation app with Google Gemini API, Stripe credit system, persistent chat history, and community sharing features.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- DATA -->
+    <div class="proj-panel" id="tab-data">
+
+      <div class="proj-card reveal">
+        <div class="proj-screenshot">
+          <img src="" alt="Stock Market">
+          <div class="screenshot-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(100,150,255,0.4)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <p>// add screenshot</p>
+          </div>
+          <span class="proj-badge badge-python">PYTHON</span>
+        </div>
+        <div class="proj-body">
+          <div class="proj-top">
+            <p class="proj-name">Stock Market EDA & Analysis</p>
+            <a href="https://github.com/ishanahluwalia/stock-market-eda" target="_blank" class="proj-gh" title="View on GitHub">
+              <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+            </a>
+          </div>
+          <p class="proj-desc">5-year NIFTY 50 analysis using Pandas and NumPy — rolling averages, return distributions, and sector correlations via Matplotlib and Seaborn heatmaps.</p>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-screenshot">
+          <img src="project_ss/Excel_Sales.png" alt="Sales Excel">
+          <div class="screenshot-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(0,220,136,0.4)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <p>// add screenshot</p>
+          </div>
+          <span class="proj-badge badge-excel">EXCEL</span>
+        </div>
+        <div class="proj-body">
+          <div class="proj-top">
+            <p class="proj-name">Store Annual Sales Dashboard — Excel</p>
+            <a href="https://github.com/Lamdamdo/sales_analysis_dummy_data" target="_blank" class="proj-gh" title="View on GitHub">
+              <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+            </a>
+          </div>
+          <p class="proj-desc">Dynamic pivot dashboard with slicers across Amazon, Flipkart, Myntra, and Meesho — uncovering key demographics and regional growth opportunities.</p>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-screenshot">
+          <img src="project_ss/PoweBi_Sales.png" alt="Power BI">
+          <div class="screenshot-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(245,196,24,0.4)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <p>// add screenshot</p>
+          </div>
+          <span class="proj-badge badge-powerbi">POWER BI</span>
+        </div>
+        <div class="proj-body">
+          <div class="proj-top">
+            <p class="proj-name">Sales Revenue Dashboard — Power BI</p>
+            <a href="https://github.com/Lamdamdo/Sales-Analysis" target="_blank" class="proj-gh" title="View on GitHub">
+              <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+            </a>
+          </div>
+          <p class="proj-desc">Interactive revenue dashboard with DAX-driven YoY growth metrics, cumulative sales measures, and drill-through regional and product-level views.</p>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-screenshot">
+          <img src="project_ss/FinTrack.png" alt="FinTrack SQL">
+          <div class="screenshot-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,45,120,0.4)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <p>// add screenshot</p>
+          </div>
+          <span class="proj-badge badge-sql">SQL</span>
+        </div>
+        <div class="proj-body">
+          <div class="proj-top">
+            <p class="proj-name">FinTrack — SQL Analytics</p>
+            <a href="https://github.com/Lamdamdo/FinTrack" target="_blank" class="proj-gh" title="View on GitHub">
+              <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+            </a>
+          </div>
+          <p class="proj-desc">Advanced SQL analytics with CTEs, window functions (DENSE_RANK), composite B-Tree indexing, and automated triggers for real-time financial aggregations.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="cyber-divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-wrap">
+    <p class="section-label reveal">// 03 CONTACT</p>
+    <h2 class="section-title reveal">GET IN <span>TOUCH</span></h2>
+    <div class="contact-wrap">
+      <div class="contact-info reveal">
+        <p>Open to full-time roles, freelance projects, and collaborations. Drop a message and I'll get back to you.</p>
+        <div class="contact-detail">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          <a href="mailto:ishanahluwalia24@gmail.com">ishanahluwalia24@gmail.com</a>
+        </div>
+        <div class="contact-detail">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          Greater Noida, India
+        </div>
+        <div class="contact-detail">
+          <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+          <a href="https://github.com/Lamdamdo" target="_blank">github.com/Lamdamdo</a>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <form class="contact-form" onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label class="form-label">NAME</label>
+            <input type="text" class="form-input" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">EMAIL</label>
+            <input type="email" class="form-input" placeholder="your@email.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">MESSAGE</label>
+            <textarea class="form-textarea" placeholder="What's on your mind..." required></textarea>
+          </div>
+          <button type="submit" class="form-submit">SEND MESSAGE</button>
+          <p class="form-msg" id="form-msg">&gt; MESSAGE SENT SUCCESSFULLY_</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="footer-text">DESIGNED &amp; BUILT BY <span>ISHAN AHLUWALIA</span> &copy; 2025</p>
+  <p class="footer-text" style="font-size:11px;">Bennett University &nbsp;|&nbsp; Greater Noida</p>
+</footer>
+
+<a href="#hero" id="gototop" aria-label="Go to top">
+  <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+</a>
+
+<script>
+function switchTab(name, el) {
+  document.querySelectorAll('.proj-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.proj-panel').forEach(function(p){ p.classList.remove('active'); });
+  el.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+function handleSubmit(e) {
+  e.preventDefault();
+  var msg = document.getElementById('form-msg');
+  msg.style.display = 'block';
+  e.target.reset();
+  setTimeout(function(){ msg.style.display = 'none'; }, 5000);
+}
+
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(function(el){ observer.observe(el); });
+
+var gototop = document.getElementById('gototop');
+window.addEventListener('scroll', function() {
+  if (window.scrollY > 400) gototop.classList.add('visible');
+  else gototop.classList.remove('visible');
+});
+
+var img = document.getElementById('profile-img');
+img.onload = function() { img.style.display = 'block'; document.getElementById('photo-placeholder').style.display = 'none'; };
+img.onerror = function() { img.style.display = 'none'; document.getElementById('photo-placeholder').style.display = 'flex'; };
+</script>
+</body>
+</html>
